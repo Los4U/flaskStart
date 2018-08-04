@@ -8,6 +8,7 @@ def route_index():  # Just a normal function, I named it this way for cleaner co
     story_title = None
     user_story = None
     criteria = None
+    business = None
 
     if 'story_title' in session:
         story_title = session['story_title']
@@ -18,8 +19,11 @@ def route_index():  # Just a normal function, I named it this way for cleaner co
     if 'criteria' in session:
         criteria = session['criteria']
 
+    if 'business' in session:
+        business = session['business']
+
         print(story_title)
-    return render_template('list.html', story_title=story_title, user_story=user_story, criteria=criteria)
+    return render_template('list.html', story_title=story_title, user_story=user_story, criteria=criteria, business=business)
 
 
 @app.route('/form')  # Registering GET requests sent to 'http://localhost:5000 **/edit-note** ' to this function
@@ -36,6 +40,7 @@ def route_save():
     session['story_title'] = request.form['story_title']
     session['user_story'] = request.form['user_story']
     session['criteria'] = request.form['criteria']
+    session['business'] = request.form['business']
 
     return redirect('/')
 
