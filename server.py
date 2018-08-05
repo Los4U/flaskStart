@@ -22,13 +22,16 @@ def get_list():
             plan_list = request.form['plan_list']
 
             data_to_write = [id_of_story, story_title, user_story, criteria, business, estimotion, plan_list]
-            write_to_file('stores.csv', data_to_write)
+            add_to_list('stores.csv', data_to_write)
 
             list_data = get_from_file('stores.csv')
             return render_template("list.html", list_data=list_data)
 
         elif request.form['action'] == "del_row":
             delete_story_id = request.form['delete_story']
+
+            delete_from_list('stores.csv', delete_story_id)
+
             print(delete_story_id)
             list_data = get_from_file('stores.csv')
             return render_template("list.html", list_data=list_data)
@@ -45,7 +48,11 @@ def route_save():
         return render_template("form.html")
 
 
-#value="{{ row.0 }}"
+@app.route('/story/<story_id>', methods=['POST', 'GET'])
+def update(story_id=None):
+    print("fdsf")
+    return render_template("form.html")
+
 
 # get the last max ID from the file, then add +1 and return
 
@@ -56,8 +63,6 @@ def get_last_id(file_name):
         i = len(lines)
     return str(i + 1)
 
-# get list of list from the file
-
 
 def get_from_file(file_name):
     with open(file_name, "r") as file:
@@ -66,15 +71,25 @@ def get_from_file(file_name):
     return data
 
 
-def write_to_file(file_name, data_to_write):
+def add_to_list(file_name, data_to_write):
     list_where_to_add = get_from_file(file_name)
     list_where_to_add.append(data_to_write)
+    write_to_file(file_name, list_where_to_add)
 
+
+def delete_from_list(file_name, id_to_delete):
+    list_where_to_del = get_from_file(file_name)
+    for i, row in enumerate(list_where_to_del):  # count in which row, list element is the ID, we want to remove
+        if id_to_delete in str(row[0]):
+            del list_where_to_del[i]  # delete exact row from the table according the provided ID
+    write_to_file(file_name, list_where_to_del)
+
+
+def write_to_file(file_name, list_to):
     with open(file_name, "w") as file:
-        for record in list_where_to_add:
+        for record in list_to:
             row = ';'.join(record)
             file.write(row + "\n")
-    print("writing to file")
 
 
 if __name__ == '__main__':

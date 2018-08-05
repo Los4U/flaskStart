@@ -34,7 +34,9 @@
                     <td>{{ row.4 }}</td>
                     <td>{{ row.5 }}</td>
                     <td>{{ row.6 }}</td>
-                    <td>Update</td>
+                    <td>
+                        <a href="{{ url_for('update', story_id = row.0) }}">Update</a>
+                    </td>
                     <td>
                         <form action="/list" method=post>
                             <input type=hidden name="action" value="del_row">
