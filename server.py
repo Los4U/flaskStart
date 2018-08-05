@@ -51,12 +51,23 @@ def route_save():
 
     elif request.method == 'POST':
         print('POST request received!')
+        '''
         session['story_title'] = request.form['story_title']
         session['user_story'] = request.form['user_story']
         session['criteria'] = request.form['criteria']
         session['business'] = request.form['business']
         session['estimotion'] = request.form['estimotion']
         session['plan_list'] = request.form['plan_list']
+        '''
+        story_title = request.form['story_title']
+        user_story = request.form['user_story']
+        criteria = request.form['criteria']
+        business = request.form['business']
+        estimotion = request.form['estimotion']
+        plan_list = request.form['plan_list']
+
+        data_to_write = [story_title, user_story, criteria, business, estimotion, plan_list]
+
         return redirect('/list')
 
 
