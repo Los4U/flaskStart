@@ -21,6 +21,8 @@
                 <td>Business value</td>
                 <td>Estimation</td>
                 <td>Status</td>
+                <td>Update</td>
+                <td>Delete</td>
             </tr>
             {% for row in list_data %}
                 <tr>
@@ -32,18 +34,19 @@
                     <td>{{ row.4 }}</td>
                     <td>{{ row.5 }}</td>
                     <td>{{ row.6 }}</td>
+                    <td>Update</td>
+                    <td>
+                        <form action="/list" method=post>
+                            <input type=hidden name="action" value="del_row">
+                            <input type=hidden value="{{ row.0 }}" name="delete_story">
+                            <input type=submit value=&#10006;>
+                        </form>
+                    </td>
                 </tr>
+
             {% endfor %}
         </table>
 
-        <h1>xxxxxxxxxxxxxx</h1>
-        <h1>{{ ID }}</h1>
-        <h1>{{ story_title }}</h1>
-        <h1>{{ user_story }}</h1>
-        <h1>{{ criteria }}</h1>
-        <h1>{{ business }}</h1>
-        <h1>{{ estimotion }}</h1>
-        <h1>{{ plan_list }}</h1>
 
 <a href="/story">Edit form</a>
 </body>

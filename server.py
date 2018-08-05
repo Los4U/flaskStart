@@ -12,35 +12,26 @@ def get_list():
         return render_template("list.html", list_data=list_data)
 
     elif request.method == 'POST':
-        list_data = get_from_file('stores.csv')
-        story_title = None
-        user_story = None
-        criteria = None
-        business = None
-        estimotion = None
-        plan_list = None
+        if request.form['action'] == "add_row":
+            id_of_story = get_last_id('stores.csv')
+            story_title = request.form['story_title']
+            user_story = request.form['user_story']
+            criteria = request.form['criteria']
+            business = request.form['business']
+            estimotion = request.form['estimotion']
+            plan_list = request.form['plan_list']
 
-        if 'story_title' in session:
-            story_title = session['story_title']
-        if 'user_story' in session:
-            user_story = session['user_story']
-        if 'criteria' in session:
-            criteria = session['criteria']
-        if 'business' in session:
-            business = session['business']
-        if 'estimotion' in session:
-            estimotion = session['estimotion']
-        if 'plan_list' in session:
-            plan_list = session['plan_list']
+            data_to_write = [id_of_story, story_title, user_story, criteria, business, estimotion, plan_list]
+            write_to_file('stores.csv', data_to_write)
 
-            print(story_title)
-    return render_template('list.html', story_title=story_title,
-                                        user_story=user_story,
-                                        criteria=criteria,
-                                        business=business,
-                                        estimotion=estimotion,
-                                        plan_list=plan_list,
-                                        list_data=list_data)
+            list_data = get_from_file('stores.csv')
+            return render_template("list.html", list_data=list_data)
+
+        elif request.form['action'] == "del_row":
+            delete_story_id = request.form['delete_story']
+            print(delete_story_id)
+            list_data = get_from_file('stores.csv')
+            return render_template("list.html", list_data=list_data)
 
 
 @app.route('/story', methods=['GET', 'POST'])
@@ -51,24 +42,21 @@ def route_save():
 
     elif request.method == 'POST':
         print('POST request received!')
-        '''
-        session['story_title'] = request.form['story_title']
-        session['user_story'] = request.form['user_story']
-        session['criteria'] = request.form['criteria']
-        session['business'] = request.form['business']
-        session['estimotion'] = request.form['estimotion']
-        session['plan_list'] = request.form['plan_list']
-        '''
-        story_title = request.form['story_title']
-        user_story = request.form['user_story']
-        criteria = request.form['criteria']
-        business = request.form['business']
-        estimotion = request.form['estimotion']
-        plan_list = request.form['plan_list']
+        return render_template("form.html")
 
-        data_to_write = [story_title, user_story, criteria, business, estimotion, plan_list]
 
-        return redirect('/list')
+#value="{{ row.0 }}"
+
+# get the last max ID from the file, then add +1 and return
+
+
+def get_last_id(file_name):
+    with open(file_name, "r") as file:
+        lines = file.readlines()
+        i = len(lines)
+    return str(i + 1)
+
+# get list of list from the file
 
 
 def get_from_file(file_name):
@@ -78,14 +66,19 @@ def get_from_file(file_name):
     return data
 
 
+def write_to_file(file_name, data_to_write):
+    list_where_to_add = get_from_file(file_name)
+    list_where_to_add.append(data_to_write)
+
+    with open(file_name, "w") as file:
+        for record in list_where_to_add:
+            row = ';'.join(record)
+            file.write(row + "\n")
+    print("writing to file")
+
+
 if __name__ == '__main__':
     app.run(
         debug=True,  # Allow verbose error reports
         port=5000  # Set custom port
     )
-
-
-
-
-# <input type="textarea" id="criteria" name="criteria" style="font-size:15pt;height:100px;width:650px;">
-# <input type="text" id="user_story" name="user_story" style="font-size:15pt;height:100px;width:650px;"><br><br>
