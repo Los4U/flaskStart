@@ -3,15 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Super Sprinter 3000</title>
+
+     <style>
+        td {
+            border: 1px solid #999;
+            padding: 0.1em 1em;
+        }
+    </style>
 </head>
 <body>
+        <table>
+            <tr>
+                <td>ID</td>
+                <td>Story Title</td>
+                <td>User Story</td>
+                <td>Acceptance criteria</td>
+                <td>Business value</td>
+                <td>Estimation</td>
+                <td>Status</td>
+            </tr>
+            {% for row in list_data %}
+                <tr>
+
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                    <td>{{ row.2 }}</td>
+                    <td>{{ row.3 }}</td>
+                    <td>{{ row.4 }}</td>
+                    <td>{{ row.5 }}</td>
+                    <td>{{ row.6 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h1>xxxxxxxxxxxxxx</h1>
+        <h1>{{ ID }}</h1>
         <h1>{{ story_title }}</h1>
         <h1>{{ user_story }}</h1>
         <h1>{{ criteria }}</h1>
         <h1>{{ business }}</h1>
         <h1>{{ estimotion }}</h1>
+        <h1>{{ plan_list }}</h1>
 
-
-<a href="/form">Edit form</a>
+<a href="/story">Edit form</a>
 </body>
 </html>

@@ -7,16 +7,16 @@
 <body>
     <h1> User Story manager - Add new Story</h1>
 
-    <form action="/form" method="post">  <!-- This form will send it's data as a POST request to 'http://localhost:5000/edit-note' route when the user **submit** s the form-->
+    <form action="/list" method="POST">  <!-- This form will send it's data as a POST request to 'http://localhost:5000/edit-note' route when the user **submit** s the form-->
 
         <label for="story_title">Story Title</label><br>
         <input type="text" id="story_title" name="story_title" style="font-size:15pt;width:650px;"><br><br>
 
         <label for="user_story">User Story</label><br>
-        <input type="text" id="user_story" name="user_story" style="font-size:15pt;height:100px;width:650px;"><br><br>
+        <textarea id="user_story" name="user_story" rows="5" cols="90">I am hilarious because...</textarea> <br><br>
 
         <label for="criteria">Acceptance criteria</label><br>
-        <input type="text" id="criteria" name="criteria" style="font-size:15pt;height:100px;width:650px;"> <br><br>
+        <textarea id="criteria" name="criteria" rows="5" cols="90">I am hilarious because...</textarea> <br><br>
 
         <label for="business">Bussines Value</label><br>
         <input type="number" id="business" name="business" min="100" max="1500" step="100" value="100"> <br><br>
@@ -25,7 +25,7 @@
         <input type="number" id="estimotion" name="estimotion" min="0.5" max="40" step="0.5" value="0.5"> <br><br>
 
         <label for="plan_list" font size="20">Status</label><br>
-        <select name="plan_list" id="plan_list">
+        <select id="plan_list" name="plan_list" >
             <option selected>Planing</option>
             <option>TO DO</option>
             <option>In progress</option>
