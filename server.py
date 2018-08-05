@@ -36,6 +36,21 @@ def get_list():
             list_data = get_from_file('stores.csv')
             return render_template("list.html", list_data=list_data)
 
+        elif request.form['action'] == "update_row":
+            id_of_story = request.form['id_of_story']
+            story_title = request.form['story_title']
+            user_story = request.form['user_story']
+            criteria = request.form['criteria']
+            business = request.form['business']
+            estimotion = request.form['estimotion']
+            plan_list = request.form['plan_list']
+
+            data_to_write = [id_of_story, story_title, user_story, criteria, business, estimotion, plan_list]
+            update_list('stores.csv', id_of_story, data_to_write)
+
+            print(id_of_story)
+            list_data = get_from_file('stores.csv')
+            return render_template("list.html", list_data=list_data)
 
 @app.route('/story', methods=['GET', 'POST'])
 def route_save():
@@ -50,18 +65,27 @@ def route_save():
 
 @app.route('/story/<story_id>', methods=['POST', 'GET'])
 def update(story_id=None):
-    print("fdsf")
-    return render_template("form.html")
+    if request.method == 'GET':
+        list_of_stories = get_from_file('stores.csv')
+        for story in list_of_stories:
+            if story[0] == story_id:
+                return render_template("form.html", story_id=story_id, story_title=story[1], user_story=story[2], criteria=story[3],
+                                       business=story[4], estimotion=story[5], plan_list=story[6] )
+    #elif request.method == 'POST':
 
 
 # get the last max ID from the file, then add +1 and return
 
 
 def get_last_id(file_name):
-    with open(file_name, "r") as file:
-        lines = file.readlines()
-        i = len(lines)
-    return str(i + 1)
+    id_list = get_from_file(file_name)
+    ids = ['0']
+
+    for data in id_list:
+        ids.append(data[0])
+
+    max_id = max(map(int, ids)) + 1
+    return str(max_id)
 
 
 def get_from_file(file_name):
@@ -73,16 +97,28 @@ def get_from_file(file_name):
 
 def add_to_list(file_name, data_to_write):
     list_where_to_add = get_from_file(file_name)
+
     list_where_to_add.append(data_to_write)
     write_to_file(file_name, list_where_to_add)
 
 
 def delete_from_list(file_name, id_to_delete):
     list_where_to_del = get_from_file(file_name)
+
     for i, row in enumerate(list_where_to_del):  # count in which row, list element is the ID, we want to remove
         if id_to_delete in str(row[0]):
             del list_where_to_del[i]  # delete exact row from the table according the provided ID
     write_to_file(file_name, list_where_to_del)
+
+
+def update_list(file_name, id_to_update, data_to_write):
+    list_where_to_update = get_from_file(file_name)
+
+    for i, row in enumerate(list_where_to_update):  # count in which row, list element is the ID, we want to remove
+        if id_to_update == str(row[0]):
+            del list_where_to_update[i]
+            list_where_to_update.append(data_to_write)
+    write_to_file(file_name, list_where_to_update)
 
 
 def write_to_file(file_name, list_to):

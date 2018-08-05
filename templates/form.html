@@ -2,21 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Super Sprinter 3000 - Add new Story</title>
+       {% if story_id %}
+            <title>Super Sprinter 3000 - Edit Story: {{ story_id }}</title>
+        {% else %}
+            <title>Super Sprinter 3000 - Add New Story</title>
+        {% endif %}
 </head>
 <body>
-    <h1> User Story manager - Add new Story</h1>
+
+        {% if story_id %}
+            <h1>Super Sprinter 3000 - Edit Story: {{ story_id }}</h1>
+        {% else %}
+            <h1> Super Sprinter 3000 - Add New Story</h1>
+        {% endif %}
 
     <form action="/list" method="POST">  <!-- This form will send it's data as a POST request to 'http://localhost:5000/edit-note' route when the user **submit** s the form-->
 
+        <label for="id_of_story"></label><br>
+        <input type=hidden id="id_of_story" name="id_of_story" value="{{ story_id }}" >
+
         <label for="story_title">Story Title</label><br>
-        <input type="text" id="story_title" name="story_title" value= {{ story_title }} style="font-size:15pt;width:650px;"><br><br>
+        <textarea id="story_title" name="story_title" rows="1" cols="80">{{ story_title }}</textarea> <br><br>
 
         <label for="user_story">User Story</label><br>
-        <textarea id="user_story" name="user_story" rows="5" cols="90">{{ user_story }}</textarea> <br><br>
+        <textarea id="user_story" name="user_story" rows="4" cols="80">{{ user_story }}</textarea> <br><br>
 
         <label for="criteria">Acceptance criteria</label><br>
-        <textarea id="criteria" name="criteria" rows="5" cols="90">{{ criteria }}</textarea> <br><br>
+        <textarea id="criteria" name="criteria" rows="4" cols="80">{{ criteria }}</textarea> <br><br>
 
         <label for="business">Bussines Value</label><br>
         <input type="number" id="business" name="business" value= {{ business }}  min="100" max="1500" step="100" value="100"> <br><br>
@@ -33,8 +45,13 @@
             <option>Done</option>
         </select>
 
-        <button type="submit" name="action" value="add_row">Create and check the list</button>
-        <button type="submit" name="add_add" formaction="/story" >Create one by one</button>  <!-- Let's allow the user to **submit** the form. --><!-- Let's allow the user to **submit** the form. -->
+        {% if story_id %}
+            <p><button type="submit" name="action" value="update_row">UPDATE-> LIST</button>
+        {% else %}
+            <p><button type="submit" name="action" value="add_row">CREATE->LIST</button>
+            <button type="submit" name="add_add" formaction="/story" >test</button> </p>
+        {% endif %}
+
     </form>
 
 </body>

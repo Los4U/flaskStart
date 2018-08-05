@@ -5,24 +5,35 @@
     <title>Super Sprinter 3000</title>
 
      <style>
+
+        th {
+            border: 1px solid #999;
+            padding: 0.1em 1em;
+            word-wrap: break-word
+            width:330px;
+        }
         td {
             border: 1px solid #999;
             padding: 0.1em 1em;
+            word-wrap: break-word
+            width:330px;
         }
+
+
     </style>
 </head>
 <body>
-        <table>
+        <table style="table-layout: fixed" >
             <tr>
-                <td>ID</td>
-                <td>Story Title</td>
-                <td>User Story</td>
-                <td>Acceptance criteria</td>
-                <td>Business value</td>
-                <td>Estimation</td>
-                <td>Status</td>
-                <td>Update</td>
-                <td>Delete</td>
+                <th>ID</th>
+                <th>Story Title</th>
+                <th>User Story</th>
+                <th>Acceptance criteria</th>
+                <th>Business value</th>
+                <th>Estimation</th>
+                <th>Status</th>
+                <th>Update</th>
+                <th>Delete</th>
             </tr>
             {% for row in list_data %}
                 <tr>
